@@ -1,0 +1,53 @@
+
+Upload complete.
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   359    0   298  100    61    462     94 --:--:-- --:--:-- --:--:--   556
+100   359    0   298  100    61    461     94 --:--:-- --:--:-- --:--:--   555
+{
+  "spreadsheetId": "1ZhK_DA8yjRrNYgK_bYiFMyRqSPJ9FJxpg6aOpctGqWA",
+  "tableRange": "DATA!B2:D219",
+  "updates": {
+    "spreadsheetId": "1ZhK_DA8yjRrNYgK_bYiFMyRqSPJ9FJxpg6aOpctGqWA",
+    "updatedRange": "DATA!B220:D220",
+    "updatedRows": 1,
+    "updatedColumns": 3,
+    "updatedCells": 3
+  }
+}
+
+Upload complete.
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   360    0   298  100    62    580    120 --:--:-- --:--:-- --:--:--   701
+{
+  "spreadsheetId": "1ZhK_DA8yjRrNYgK_bYiFMyRqSPJ9FJxpg6aOpctGqWA",
+  "tableRange": "DATA!B2:D220",
+  "updates": {
+    "spreadsheetId": "1ZhK_DA8yjRrNYgK_bYiFMyRqSPJ9FJxpg6aOpctGqWA",
+    "updatedRange": "DATA!B221:D221",
+    "updatedRows": 1,
+    "updatedColumns": 3,
+    "updatedCells": 3
+  }
+}
+
+Upload complete.
+
+
+{
+  "spreadsheetId": "1ZhK_DA8yjRrNYgK_bYiFMyRqSPJ9FJxpg6aOpctGqWA",
+  "tableRange": "DATA!B2:D226",
+  "updates": {
+    "spreadsheetId": "1ZhK_DA8yjRrNYgK_bYiFMyRqSPJ9FJxpg6aOpctGqWA",
+    "updatedRange": "DATA!B227:D228",
+    "updatedRows": 2,
+    "updatedColumns": 3,
+    "updatedCells": 6
+  }
+}
+
