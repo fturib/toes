@@ -1,3 +1,7 @@
+# Cache
+.cache
+.firebase
+
 # Credentials
 credentials.json
 
