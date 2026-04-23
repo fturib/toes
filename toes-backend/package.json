@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "deploy": "gcloud run deploy toes-backend --source . --region us-central1 --allow-unauthenticated --min-instances 0 --max-instances 1 --memory 512Mi --timeout 60s"
   },
   "keywords": [],
   "author": "",
