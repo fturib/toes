@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, nextTick, onErrorCaptured } from 'vue'
 import Chart from 'chart.js/auto'
 
 const sheetData = ref([])
@@ -69,77 +69,89 @@ const selectStation = async (station) => {
 }
 
 const renderChart = () => {
-  if (!selectedStation.value || stationData.value.length === 0) return
+  try {
+    if (!selectedStation.value || stationData.value.length === 0) return
 
-  // Destroy previous chart if it exists
-  if (chartInstance.value) {
-    chartInstance.value.destroy()
-  }
+    const ctx = document.getElementById('turbidityChart')
+    if (!ctx) return
 
-  const ctx = document.getElementById('turbidityChart')
-  if (!ctx) return
+    // Safely destroy the previous chart
+    if (chartInstance.value) {
+      try {
+        chartInstance.value.destroy()
+      } catch (error) {
+        console.warn('Error destroying previous chart:', error)
+      }
+      chartInstance.value = null
+    }
 
-  // Sort data by collected-at ascending
-  const sortedData = [...stationData.value].sort((a, b) => {
-    const timeA = makeDate(a['collected-at'])
-    const timeB = makeDate(b['collected-at'])
-    return timeA - timeB
-  })
+    // Sort data by collected-at ascending
+    const sortedData = [...stationData.value].sort((a, b) => {
+      const timeA = makeDate(a['collected-at'])
+      const timeB = makeDate(b['collected-at'])
+      return timeA - timeB
+    })
 
-  const labels = sortedData.map(d => {
-    const date = makeDate(d['collected-at'])
-    return date.toLocaleString()
-  })
+    const labels = sortedData.map(d => {
+      const date = makeDate(d['collected-at'])
+      return date.toLocaleString()
+    })
 
-  const values = sortedData.map(d => d.turbidity?.value || 0)
+    const values = sortedData.map(d => d.turbidity?.value || 0)
 
-  chartInstance.value = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: `Turbidity for ${selectedStation.value}`,
-          data: values,
-          borderColor: '#007bff',
-          backgroundColor: 'rgba(0, 123, 255, 0.1)',
-          tension: 0.3,
-          fill: true,
-          pointRadius: 4,
-          pointBackgroundColor: '#007bff'
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: {
-        legend: {
-          display: true,
-          position: 'top'
-        },
-        title: {
-          display: true,
-          text: `Turbidity Data - ${selectedStation.value}`
-        }
+    chartInstance.value = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: `Turbidity for ${selectedStation.value}`,
+            data: values,
+            borderColor: '#007bff',
+            backgroundColor: 'rgba(0, 123, 255, 0.1)',
+            tension: 0.3,
+            fill: true,
+            pointRadius: 4,
+            pointBackgroundColor: '#007bff'
+          }
+        ]
       },
-      scales: {
-        y: {
-          beginAtZero: true,
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        animation: {
+          duration: 10  // Disable animations to avoid conflicts
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          },
           title: {
             display: true,
-            text: 'Turbidity Value'
+            text: `Turbidity Data - ${selectedStation.value}`
           }
         },
-        x: {
-          title: {
-            display: true,
-            text: 'Time'
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Turbidity Value'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Time'
+            }
           }
         }
       }
-    }
-  })
+    })
+  } catch (error) {
+    console.error('Error rendering chart:', error)
+  }
 }
 
 const loadData = async () => {
@@ -148,11 +160,20 @@ const loadData = async () => {
   loading.value = false
 }
 
-watch(() => stationData.value, () => {
+watch(() => stationData.value, async () => {
+  const currentChart = chartInstance.value
+  await nextTick()
+  if (currentChart) {
+    currentChart.destroy()
+  }
   renderChart()
 })
 
 onMounted(loadData)
+
+onErrorCaptured(error => {
+  alert('From App.vue: ' + error.message)
+})
 </script>
 
 <template>
